@@ -1,0 +1,181 @@
+@prefix ex: <https://misato-hayashi-sherry.github.io/gut-microbiome-lod/microbiome.ttl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix schema: <https://schema.org/> .
+
+# ==================================================
+# LOD全体の情報
+# ==================================================
+
+ex:GutMicrobiomeLOD
+    a schema:Dataset ;
+    dct:title "腸内細菌と健康への作用に関するLOD"@ja ;
+    dct:description "代表的な腸内細菌、産生物質、健康作用の関係を表現したLOD"@ja ;
+    dct:creator "林美聡"@ja ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/> .
+
+# ==================================================
+# クラスの定義
+# ==================================================
+
+ex:Microorganism
+    a rdfs:Class ;
+    rdfs:label "微生物"@ja .
+
+ex:GutBacterium
+    a rdfs:Class ;
+    rdfs:subClassOf ex:Microorganism ;
+    rdfs:label "腸内細菌"@ja .
+
+ex:BacterialGenus
+    a rdfs:Class ;
+    rdfs:label "菌属"@ja .
+
+ex:Metabolite
+    a rdfs:Class ;
+    rdfs:label "代謝産物"@ja .
+
+ex:HealthEffect
+    a rdfs:Class ;
+    rdfs:label "健康作用"@ja .
+
+ex:Reference
+    a rdfs:Class ;
+    rdfs:label "参考資料"@ja .
+
+# ==================================================
+# プロパティの定義
+# ==================================================
+
+ex:belongsToGenus
+    a rdf:Property ;
+    rdfs:label "属する菌属"@ja ;
+    rdfs:domain ex:GutBacterium ;
+    rdfs:range ex:BacterialGenus .
+
+ex:produces
+    a rdf:Property ;
+    rdfs:label "産生する"@ja ;
+    rdfs:domain ex:GutBacterium ;
+    rdfs:range ex:Metabolite .
+
+ex:associatedWith
+    a rdf:Property ;
+    rdfs:label "関連する健康作用"@ja ;
+    rdfs:domain ex:GutBacterium ;
+    rdfs:range ex:HealthEffect .
+
+ex:hasRelatedEffect
+    a rdf:Property ;
+    rdfs:label "関連する作用"@ja ;
+    rdfs:domain ex:Metabolite ;
+    rdfs:range ex:HealthEffect .
+
+ex:hasReference
+    a rdf:Property ;
+    rdfs:label "情報源"@ja ;
+    rdfs:range ex:Reference .
+
+# ==================================================
+# 菌属
+# ==================================================
+
+ex:AkkermansiaGenus
+    a ex:BacterialGenus ;
+    rdfs:label "Akkermansia属"@ja .
+
+ex:BifidobacteriumGenus
+    a ex:BacterialGenus ;
+    rdfs:label "Bifidobacterium属"@ja .
+
+ex:FaecalibacteriumGenus
+    a ex:BacterialGenus ;
+    rdfs:label "Faecalibacterium属"@ja .
+
+# ==================================================
+# 腸内細菌
+# ==================================================
+
+ex:AkkermansiaMuciniphila
+    a ex:GutBacterium ;
+    rdfs:label "Akkermansia muciniphila"@en ;
+    rdfs:label "アッカーマンシア・ムシニフィラ"@ja ;
+    ex:belongsToGenus ex:AkkermansiaGenus ;
+    ex:produces ex:Acetate ;
+    ex:associatedWith ex:IntestinalBarrierFunction ;
+    ex:hasReference ex:Reference1 .
+
+ex:BifidobacteriumLongum
+    a ex:GutBacterium ;
+    rdfs:label "Bifidobacterium longum"@en ;
+    rdfs:label "ビフィドバクテリウム・ロンガム"@ja ;
+    ex:belongsToGenus ex:BifidobacteriumGenus ;
+    ex:produces ex:Acetate ;
+    ex:produces ex:Lactate ;
+    ex:associatedWith ex:ImmuneFunction ;
+    ex:hasReference ex:Reference2 .
+
+ex:FaecalibacteriumPrausnitzii
+    a ex:GutBacterium ;
+    rdfs:label "Faecalibacterium prausnitzii"@en ;
+    rdfs:label "フィーカリバクテリウム・プラウスニッツィ"@ja ;
+    ex:belongsToGenus ex:FaecalibacteriumGenus ;
+    ex:produces ex:Butyrate ;
+    ex:associatedWith ex:AntiInflammatoryEffect ;
+    ex:hasReference ex:Reference3 .
+
+# ==================================================
+# 代謝産物
+# ==================================================
+
+ex:Acetate
+    a ex:Metabolite ;
+    rdfs:label "酢酸"@ja ;
+    ex:hasRelatedEffect ex:IntestinalBarrierFunction .
+
+ex:Butyrate
+    a ex:Metabolite ;
+    rdfs:label "酪酸"@ja ;
+    ex:hasRelatedEffect ex:AntiInflammatoryEffect ;
+    ex:hasRelatedEffect ex:IntestinalBarrierFunction .
+
+ex:Lactate
+    a ex:Metabolite ;
+    rdfs:label "乳酸"@ja .
+
+# ==================================================
+# 健康作用
+# ==================================================
+
+ex:IntestinalBarrierFunction
+    a ex:HealthEffect ;
+    rdfs:label "腸管バリア機能の維持"@ja .
+
+ex:ImmuneFunction
+    a ex:HealthEffect ;
+    rdfs:label "免疫機能との関連"@ja .
+
+ex:AntiInflammatoryEffect
+    a ex:HealthEffect ;
+    rdfs:label "抗炎症作用との関連"@ja .
+
+# ==================================================
+# 参考資料
+# ==================================================
+
+ex:Reference1
+    a ex:Reference ;
+    dct:title "Akkermansia muciniphilaに関する参考資料"@ja ;
+    schema:url <https://pubmed.ncbi.nlm.nih.gov/> .
+
+ex:Reference2
+    a ex:Reference ;
+    dct:title "Bifidobacterium longumに関する参考資料"@ja ;
+    schema:url <https://pubmed.ncbi.nlm.nih.gov/> .
+
+ex:Reference3
+    a ex:Reference ;
+    dct:title "Faecalibacterium prausnitziiに関する参考資料"@ja ;
+    schema:url <https://pubmed.ncbi.nlm.nih.gov/> .
